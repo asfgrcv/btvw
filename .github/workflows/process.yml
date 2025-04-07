@@ -1,0 +1,44 @@
+name: Copy _worker.js to index.ts and Generate wrangler.jsonc
+
+on:
+  push: # 推送时运行
+    branches:
+      - main
+  schedule:
+    - cron: "0 3 * * *" # 每天凌晨 3 点运行
+
+permissions:
+  contents: write
+
+jobs:
+  copy_worker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 创建 src 目录
+        run: mkdir -p src
+
+      - name: 复制 _worker.js 到 src/index.ts
+        run: cp _worker.js src/index.ts
+
+      - name: 生成 wrangler.jsonc
+        run: |
+          echo '{
+            "name": "btvw-0406",
+            "compatibility_date": "'$(date +%Y-%m-%d)'",
+            "main": "src/index.ts",
+            "compatibility_flags": [
+              "nodejs_compat"
+            ]
+          }' > wrangler.jsonc
+
+      - name: 提交更改
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          branch: main
+          commit_message: ':arrow_up: 每天自动更新 index.ts 和 wrangler.jsonc'
+          commit_author: 'github-actions[bot] <github-actions[bot]@users.noreply.github.com>'
+          push_options: '--set-upstream'
