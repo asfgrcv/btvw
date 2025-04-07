@@ -27,7 +27,7 @@ jobs:
       - name: 生成 wrangler.jsonc
         run: |
           echo '{
-            "name": "btvw-0407",
+            "name": "btvw",
             "compatibility_date": "'$(date +%Y-%m-%d)'",
             "main": "src/index.ts",
             "compatibility_flags": [
