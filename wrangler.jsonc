@@ -1,6 +1,6 @@
 {
   "name": "btvw",
-  "compatibility_date": "2025-10-11",
+  "compatibility_date": "2025-10-12",
   "main": "src/index.ts",
   "compatibility_flags": [
     "nodejs_compat"
